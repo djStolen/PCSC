@@ -61,10 +61,7 @@ jobs:
   local-build:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job
-      # can access it
       - uses: actions/checkout@v7
 
       - name: setup prerequisites
@@ -91,8 +88,9 @@ jobs:
           meson setup builddir --werror
           cd builddir
 
-          DESTDIR=/tmp/pcsc meson install
-          find /tmp/pcsc
+          # Use ../dist to write to repo root outside builddir
+          DESTDIR=../dist meson install
+          find ../dist
 
           meson dist --allow-dirty
 
